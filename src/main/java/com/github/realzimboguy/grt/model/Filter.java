@@ -30,6 +30,16 @@ public class Filter {
         this.regex = regex;
     }
 
+
+    @Override
+    public String toString() {
+        return "Filter{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", regex='" + regex + '\'' +
+                '}';
+    }
+
     public static enum FilterType {
         REGEX_VALUE,
         JSON_VALUE,

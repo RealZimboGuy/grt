@@ -17,6 +17,15 @@ public class ReportJob {
     private String statusMessage;
     private String lastUpdateDate;
 
+    private AggregateBy aggregateBy;
+
+    public AggregateBy getAggregateBy() {
+        return aggregateBy;
+    }
+
+    public void setAggregateBy(AggregateBy aggregateBy) {
+        this.aggregateBy = aggregateBy;
+    }
 
     public int getReportJobId() {
         return reportJobId;
@@ -125,7 +134,15 @@ public class ReportJob {
                 ", params='" + params + '\'' +
                 ", statusMessage='" + statusMessage + '\'' +
                 ", lastUpdateDate='" + lastUpdateDate + '\'' +
+                ", aggregateBy=" + aggregateBy +
                 '}';
+    }
+
+    public static enum AggregateBy {
+        ALL,
+        DAY,
+        MONTH,
+        YEAR
     }
 
     public static enum Status {

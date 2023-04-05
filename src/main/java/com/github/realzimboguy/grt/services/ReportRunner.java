@@ -71,7 +71,7 @@ public class ReportRunner implements Runnable{
                     runDayReport(reportJob, report, reportDirectory, reportDisplays);
                     break;
             }
-        }catch (IOException e){
+        }catch (Exception e){
             log.error("Error running report",e);
             grtRepo.updateReportJob(reportJob.getId(), ReportJob.Status.FAILED, "Error running report:"+ e.getMessage());
         }
@@ -100,6 +100,78 @@ public class ReportRunner implements Runnable{
         log.info("running year report");
         List<Path> filesMatching = getFilesInDirectoryMatchingFilterYear(fullDir, reportDirectory.getReportFilePattern(), reportJob);
         log.info("filesMatching:{}",filesMatching);
+        
+        if (filesMatching.isEmpty()){
+            throw new RuntimeException("No files found matching pattern");
+        }
+        
+
+        if (reportJob.getAggregateBy() == ReportJob.AggregateBy.ALL){
+            runReportYearAggregateByAll(reportJob, report, reportDirectory, reportDisplays, filesMatching);
+            return;
+            
+        }else if (reportJob.getAggregateBy() == ReportJob.AggregateBy.YEAR){
+            runReportYearAggregateByYear(reportJob, report, reportDirectory, reportDisplays, filesMatching);
+            return;
+        }
+        throw new RuntimeException("Unknown aggregateBy for report job year");
+        
+
+
+
+
+    }
+
+    private void runReportYearAggregateByYear(ReportJob reportJob, Report report, ReportDirectory reportDirectory, List<ReportDisplay> reportDisplays, List<Path> filesMatching) {
+        log.info("running report year aggregate by year");
+
+        for (Path path : filesMatching) {
+            log.info("path:{}",path);
+
+        }
+
+
+    }
+
+    private void runReportYearAggregateByAll(ReportJob reportJob, Report report, ReportDirectory reportDirectory, List<ReportDisplay> reportDisplays, List<Path> filesMatching) {
+
+        log.info("running report year aggregate by all");
+
+        ReportResult reportResult = new ReportResult();
+
+        String catCommand = "cat " + filesMatching.stream().map(Path::toString).collect(Collectors.joining(" "));
+        log.info("catCommand:{}",catCommand);
+
+        for (ReportDisplay reportDisplay : reportDisplays) {
+
+            //get filter
+            FilterGroup filterGroup = grtRepo.getSystemConfig().getFilterGroups().get(reportDisplay.getFilterGroupId());
+
+            if (filterGroup == null){
+                throw new RuntimeException("Filter group not found for report display:"+reportDisplay);
+            }
+
+            String grepCommand = "";
+            if (filterGroup.getFilterGroupType() == FilterGroup.FilterGroupType.INCLUDE){
+                grepCommand = "zgrep -E ";
+            }else if (filterGroup.getFilterGroupType() == FilterGroup.FilterGroupType.EXCLUDE) {
+                grepCommand = "zgrep -Ev ";
+            }
+
+            for (Integer filterId : filterGroup.getFilterIds()) {
+                Filter filter = grtRepo.getSystemConfig().getFilters().get(filterId);
+                log.info("filter:{}",filter);
+                //apppend regex to grep command
+                grepCommand += filter.getRegex() + "|";
+            }
+            log.info("grepCommand:{}",grepCommand);
+
+
+
+        }
+
+
+
     }
 
     private void runUnstructuredReport(ReportJob reportJob, Report report, ReportDirectory reportDirectory,List<ReportDisplay> reportDisplays) {

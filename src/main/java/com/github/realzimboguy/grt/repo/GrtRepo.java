@@ -131,6 +131,7 @@ public class GrtRepo {
         reportJob.setReportId(1);
         reportJob.setParams("start=2012,end=2017");
         reportJob.setStatus(ReportJob.Status.PENDING);
+        reportJob.setAggregateBy(ReportJob.AggregateBy.ALL);
 
         systemConfig.getReportJobs().put(reportJob.getId(), reportJob);
 
