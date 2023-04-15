@@ -11,7 +11,7 @@ public class Report {
 
     private LinkedList<Integer> reportDisplayIds;
 
-    private ReportDisplayTotals reportDisplayTotals;
+    private ReportDisplayType reportDisplayType;
     private DateAggregation dateAggregation;
 
     public int getId() {
@@ -54,12 +54,12 @@ public class Report {
         this.reportDisplayIds = reportDisplayIds;
     }
 
-    public ReportDisplayTotals getReportDisplayTotals() {
-        return reportDisplayTotals;
+    public ReportDisplayType getReportDisplayType() {
+        return reportDisplayType;
     }
 
-    public void setReportDisplayTotals(ReportDisplayTotals reportDisplayTotals) {
-        this.reportDisplayTotals = reportDisplayTotals;
+    public void setReportDisplayType(ReportDisplayType reportDisplayType) {
+        this.reportDisplayType = reportDisplayType;
     }
 
     public DateAggregation getDateAggregation() {
@@ -76,10 +76,15 @@ public class Report {
         YEAR,
         NONE
     }
-    public static enum ReportDisplayTotals {
+    public static enum ReportDisplayType {
+        EXTRACT,
         SUM,
+        FIELDS_ONLY,
+        FIELDS_AND_SUM,
         COUNT,
-        SUM_AND_COUNT
+        FIELDS_AND_COUNT,
+        SUM_AND_COUNT,
+        FIELDS_AND_SUM_AND_COUNT
     }
 
 }

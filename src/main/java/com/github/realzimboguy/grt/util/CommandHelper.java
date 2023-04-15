@@ -1,9 +1,13 @@
 package com.github.realzimboguy.grt.util;
 
+import com.github.realzimboguy.grt.model.DisplayField;
+import com.github.realzimboguy.grt.model.Report;
+
 import java.io.*;
+import java.util.List;
 import java.util.Scanner;
 
-public class GrepHelper {
+public class CommandHelper {
 
     public static String searchFileForContentHead(String path,String file,int headSize){
         ProcessBuilder processBuilder = new ProcessBuilder();
@@ -131,5 +135,22 @@ public class GrepHelper {
                 }
             }
         }).start();
+    }
+
+    public static String getAwkCommand(Report report, List<DisplayField> displayFields) {
+        //awk 'match($0,/Country":"([^"]{1,})"/,a) {printf a[1]};match($0,/Total Revenue":"([^"]{1,})"/,b) {printf "\t" b[1]}; {print ""} '
+
+        String prefix = "awk '";
+        String suffix = "; {print \"\"} '";
+
+        if (report.getReportDisplayType()== Report.ReportDisplayType.FIELDS_ONLY){
+
+            for (DisplayField displayField : displayFields) {
+                if (displayField.get)
+
+            }
+        }
+
+
     }
 }

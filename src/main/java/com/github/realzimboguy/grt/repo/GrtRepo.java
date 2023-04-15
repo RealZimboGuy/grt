@@ -1,7 +1,6 @@
 package com.github.realzimboguy.grt.repo;
 
 import com.github.realzimboguy.grt.model.*;
-import com.github.realzimboguy.grt.util.GrepHelper;
 import com.github.realzimboguy.grt.util.StaticVariables;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -96,7 +95,7 @@ public class GrtRepo {
         report.setDescription("This report shows the number of times a country appears in the log file");
         report.setReportDirectoryId(1);
         report.setDateAggregation(Report.DateAggregation.YEAR);
-        report.setReportDisplayTotals(Report.ReportDisplayTotals.COUNT);
+        report.setReportDisplayType(Report.ReportDisplayType.COUNT);
         report.setReportDisplayIds(new LinkedList<>());
         report.getReportDisplayIds().add(1);
 
@@ -110,6 +109,12 @@ public class GrtRepo {
         systemConfig.getFilters().put(filter.getId(), filter);
 
 
+        Filter filter2 = new Filter();
+        filter2.setId(2);
+        filter2.setName("Andorra");
+        filter2.setRegex("\"\\\"Country\\\":\\\"Andorra\"");
+        systemConfig.getFilters().put(filter2.getId(), filter2);
+
 
         FilterGroup filterGroup = new FilterGroup();
         filterGroup.setId(1);
@@ -117,6 +122,7 @@ public class GrtRepo {
         filterGroup.setFilterGroupType(FilterGroup.FilterGroupType.INCLUDE);
         filterGroup.setFilterIds(new LinkedList<>());
         filterGroup.getFilterIds().add(1);
+        filterGroup.getFilterIds().add(2);
         systemConfig.getFilterGroups().put(filterGroup.getId(), filterGroup);
 
         ReportDisplay reportDisplay = new ReportDisplay();

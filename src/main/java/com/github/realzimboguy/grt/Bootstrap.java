@@ -17,7 +17,7 @@ public class Bootstrap {
 
     public static void main(String[] args) throws IOException {
         System.out.println("Hello world!");
-        System.out.println("start"+  new Date().getTime());
+//        System.out.println("start"+  new Date().getTime());
 
         apiController = new ApiController(7021);
         grtRepo = new GrtRepo("/grt/grt.properties");
