@@ -48,6 +48,10 @@ public class GrtRepo {
 
             saveSystemConfig();
         }
+
+        runReport(systemConfig);
+
+
     }
 
     private void populateSampleData(SystemConfig systemConfig) throws IOException {
@@ -89,13 +93,18 @@ public class GrtRepo {
         writeResourceToDir("sample_data","2016.txt.gz",basePath + StaticVariables.Properties.DIRECTORY_DATA  + "/" + sampleDirName);
         writeResourceToDir("sample_data","2017.txt.gz",basePath + StaticVariables.Properties.DIRECTORY_DATA  + "/" + sampleDirName);
 
+//        runReport(systemConfig);
+
+    }
+
+    private static void runReport(SystemConfig systemConfig) {
         Report report = new Report();
         report.setId(1);
         report.setName("Country Count Report in Europe");
         report.setDescription("This report shows the number of times a country appears in the log file");
         report.setReportDirectoryId(1);
         report.setDateAggregation(Report.DateAggregation.YEAR);
-        report.setReportDisplayType(Report.ReportDisplayType.COUNT);
+        report.setReportDisplayType(Report.ReportDisplayType.FIELDS_AND_SUM);
         report.setReportDisplayIds(new LinkedList<>());
         report.getReportDisplayIds().add(1);
 
@@ -130,6 +139,8 @@ public class GrtRepo {
         reportDisplay.setName("Country");
         reportDisplay.setReportDisplayAggregates(ReportDisplay.ReportDisplayAggregates.COUNT);
         reportDisplay.setFilterGroupId(1);
+
+
         systemConfig.getReportDisplays().put(reportDisplay.getId(), reportDisplay);
 
         ReportJob reportJob = new ReportJob();
@@ -140,7 +151,6 @@ public class GrtRepo {
         reportJob.setAggregateBy(ReportJob.AggregateBy.ALL);
 
         systemConfig.getReportJobs().put(reportJob.getId(), reportJob);
-
     }
 
     public void writeResourceToDir(String sourceDir,String name,String dir) throws IOException {

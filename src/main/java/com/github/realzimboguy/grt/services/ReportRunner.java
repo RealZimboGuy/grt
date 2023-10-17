@@ -149,11 +149,7 @@ public class ReportRunner implements Runnable {
             }
 
             String grepCommand = "";
-//            if (filterGroup.getFilterGroupType() == FilterGroup.FilterGroupType.INCLUDE){
-//                grepCommand = "zgrep ";
-//            }else if (filterGroup.getFilterGroupType() == FilterGroup.FilterGroupType.EXCLUDE) {
-//                grepCommand = "zgrep -v ";
-//            }
+
             boolean first = true;
             String cmd = "";
             for (Integer filterId : filterGroup.getFilterIds()) {
@@ -177,12 +173,8 @@ public class ReportRunner implements Runnable {
             if (grepCommand.charAt(grepCommand.length() - 1) == '|') {
                 grepCommand = grepCommand.substring(0, grepCommand.length() - 1);
             }
+            log.info("grepCommand:{}", grepCommand);
 
-            for (Integer displayFieldId : reportDisplay.getDisplayFieldIds()) {
-                DisplayField displayField = grtRepo.getSystemConfig().getDisplayFields().get(displayFieldId);
-
-
-            }
             if (report.getReportDisplayType() == Report.ReportDisplayType.EXTRACT){
 
                 //we return the raw data as is
